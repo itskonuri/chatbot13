@@ -26,10 +26,9 @@ if user_input := st.chat_input("메시지를 입력하세요..."):
     messages += [{"role": m["role"], "content": m["content"]} for m in st.session_state.messages]
 
     with st.chat_message("assistant"):
-        stream = client.chat.completions.create(
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=messages,
             stream=True
         )
-        response = st.write_stream(stream)
     st.session_state.messages.append({"role": "assistant", "content": response})
