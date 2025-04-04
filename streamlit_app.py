@@ -39,13 +39,15 @@ else:
             st.markdown(prompt)
 
         # Generate a response using the OpenAI API.
-        response = client.chat.completions.create(
+        stream = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "너는 코드 작성 도우미야."},
-                {"role": "user", "content": "파이썬으로 for문 예제 보여줘"}
-    ]
-)
+                {"role": "system", "content": "너는 코드 수정에 특화된 헬퍼야."},
+                {"role": "user", "content": "파이썬에서 딕셔너리는 뭐야?"}
+                for m in st.session_state.messages
+            ],
+            stream=True,
+        )
 
         # Stream the response to the chat using `st.write_stream`, then store it in 
         # session state.
